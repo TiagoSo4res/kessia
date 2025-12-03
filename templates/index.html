@@ -3,293 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta de Gratidão para Késsia</title>
+    <title>Carta para {{ carta.destinatario }}</title>
+    <meta name="description" content="Carta digital de gratidão para Késsia - Uma expressão sincera de admiração e agradecimento">
+    <meta name="keywords" content="carta, gratidão, Késsia, agradecimento, trabalho, liderança">
+    <meta property="og:title" content="Carta de Gratidão para {{ carta.destinatario }}">
+    <meta property="og:description" content="Uma carta digital expressando gratidão e admiração">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Container principal clean */
-        .letter-container {
-            width: 100%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.08),
-                0 5px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Header clean */
-        .letter-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #4a6572 100%);
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .letter-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(to right, #3498db, #2ecc71);
-        }
-
-        .recipient-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            color: white;
-            font-weight: 600;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .recipient-subtitle {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1.1rem;
-            font-weight: 300;
-        }
-
-        /* Conteúdo da carta */
-        .letter-content {
-            padding: 60px 50px;
-            background: white;
-        }
-
-        /* Data e saudação */
-        .letter-meta {
-            text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .letter-date {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .letter-greeting {
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        /* Texto da carta */
-        .letter-text {
-            font-size: 1.1rem;
-            color: #444;
-            line-height: 1.8;
-        }
-
-        .letter-text p {
-            margin-bottom: 25px;
-            text-align: justify;
-        }
-
-        /* Destaques clean */
-        .highlight {
-            background: linear-gradient(120deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0) 100%);
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        /* Assinatura */
-        .letter-signature {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid #eee;
-            text-align: right;
-        }
-
-        .signature-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .signature-role {
-            color: #666;
-            font-style: italic;
-        }
-
-        /* Footer clean */
-        .letter-footer {
-            background: #f8f9fa;
-            padding: 25px;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-
-        .footer-text {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* Decorações sutis */
-        .corner-decoration {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            opacity: 0.05;
-        }
-
-        .corner-top-left {
-            top: 20px;
-            left: 20px;
-            border-top: 2px solid #2c3e50;
-            border-left: 2px solid #2c3e50;
-        }
-
-        .corner-bottom-right {
-            bottom: 20px;
-            right: 20px;
-            border-bottom: 2px solid #2c3e50;
-            border-right: 2px solid #2c3e50;
-        }
-
-        /* Botão de impressão */
-        .print-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .print-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .print-button i {
-            font-size: 1.5rem;
-            color: #2c3e50;
-        }
-
-        /* Efeito de marca d'água */
-        .watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 15rem;
-            font-weight: 900;
-            color: rgba(236, 240, 241, 0.15);
-            z-index: 0;
-            pointer-events: none;
-            user-select: none;
-            white-space: nowrap;
-        }
-
-        /* Animação sutil para entrada */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .letter-container {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .letter-container {
-                max-width: 95%;
-            }
-
-            .letter-header {
-                padding: 30px 20px;
-            }
-
-            .recipient-name {
-                font-size: 2rem;
-            }
-
-            .letter-content {
-                padding: 40px 25px;
-            }
-
-            .letter-text {
-                font-size: 1rem;
-            }
-
-            .print-button {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .letter-container {
-                box-shadow: none;
-                max-width: 100%;
-            }
-
-            .print-button {
-                display: none;
-            }
-        }
-
-        /* Efeito de realce ao passar o mouse */
-        .letter-text p {
-            transition: background-color 0.3s ease;
-            padding: 10px 5px;
-            border-radius: 5px;
-        }
-
-        .letter-text p:hover {
-            background-color: rgba(124, 43, 231, 0.03);
-        }
-    </style>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
     <!-- Container principal -->
@@ -298,53 +21,50 @@
         <div class="corner-decoration corner-top-left"></div>
         <div class="corner-decoration corner-bottom-right"></div>
         
+        <!-- Marca d'água -->
+
 
         <!-- Header -->
         <div class="letter-header">
-            <div class="recipient-name">Késsia</div>
-            <div class="recipient-subtitle">(Dona Kézia)</div>
+            <div class="recipient-name" id="animated-name">{{ carta.destinatario }}</div>
+            <div class="recipient-subtitle">{{ carta.subtitulo }}</div>
         </div>
 
         <!-- Conteúdo -->
         <div class="letter-content">
             <!-- Data e saudação -->
             <div class="letter-meta">
-                <div class="letter-greeting">Um dia especial</div>
+                <div class="letter-date">{{ carta.data }}</div>
+                <div class="letter-greeting">De coração Amadinha</div>
             </div>
 
             <!-- Texto da carta -->
             <div class="letter-text">
-                <p>Quero expressar toda minha gratidão a senhora, que vai muito além das formalidades do dia a dia no trabalho. Às vezes, as palavras do cotidiano não são suficientes para expressar o que realmente sentimos, e hoje tive a oportunidade de lhe escrever o meu sincero "obrigado".</p>
-
-                <p>Obrigado, primeiro, pela <span class="highlight">liderança</span>. Por confiar em mim, por me desafiar com novos projetos e por acreditar no meu potencial mesmo quando eu próprio tinha dúvidas. Aprender com a sua experiência e visão tem sido um dos maiores trunfos da minha trajetória aqui.</p>
-
-                <p>Mas este agradecimento é especial porque vai além. Quero agradecer pelos <span class="highlight">conselhos</span> que vêm não só da chefe, mas da mulher sábia que você é. Pelas palavras de orientação nos momentos de indecisão, por me ensinar não apenas como fazer, mas o porquê das coisas. Obrigado pelo <span class="highlight">apoio incondicional</span> por tantas vezes, especialmente quando as coisas ficavam turbulentas.</p>
-
-                <p>Mas existe um detalhe ainda mais específico: o seu <span class="highlight">cuidado</span> tem, muitas vezes, um acolhimento que lembra o de uma mãe. Essa preocupação genuína não só com o profissional que eu sou, mas com a pessoa que estou me tornando, que faz toda a diferença. Você cria um espaço onde é possível crescer, errar, aprender e seguir em frente, sentindo-se apoiado. Isso é um raro e precioso dom que a senhora tem.</p>
-
-                <p>É uma <span class="highlight">dádiva extraordinária</span> encontrar alguém que, como a senhora, também é uma mentora e uma verdadeira inspiração. Você moldou não apenas meu trabalho, mas também minha maneira de encarar os desafios e de me relacionar com os outros.</p>
-
-                <p>Por tudo isso, do fundo do meu coração: <span class="highlight">muito, muito obrigado</span>. É uma honra e um privilégio poder aprender e trabalhar ao seu lado.</p>
+                {% for item in carta.conteudo %}
+                <p>{{ item.paragrafo|safe }}</p>
+                {% endfor %}
             </div>
 
             <!-- Assinatura -->
             <div class="letter-signature">
-                <div class="signature-name">Tiago</div>
+                <div class="signature-name">{{ carta.autor }}</div>
                 <div class="signature-role">Com toda a minha estima e admiração</div>
             </div>
         </div>
 
 
-
-    <!-- Botão de impressão -->
-    <div class="print-button" onclick="window.print()">
+    <!-- Botão de impressão flutuante -->
+    <div class="print-button" onclick="window.print()" title="Imprimir carta">
         <i class="fas fa-print"></i>
     </div>
 
+    <!-- Notificações -->
+    <div id="notification" class="notification"></div>
+
     <script>
-        // Efeito de digitação sutil no nome
+        // Efeito de digitação no nome
         function typeWriterEffect() {
-            const nameElement = document.querySelector('.recipient-name');
+            const nameElement = document.getElementById('animated-name');
             const originalText = nameElement.textContent;
             nameElement.textContent = '';
             
@@ -357,7 +77,6 @@
                 }
             }
             
-            // Iniciar após um breve delay
             setTimeout(typeWriter, 500);
         }
 
@@ -365,57 +84,64 @@
         function highlightParagraphs() {
             const paragraphs = document.querySelectorAll('.letter-text p');
             paragraphs.forEach((p, index) => {
-                // Delay progressivo para cada parágrafo
                 setTimeout(() => {
                     p.style.opacity = '1';
                     p.style.transform = 'translateY(0)';
                 }, index * 200);
                 
-                // Estilos iniciais
                 p.style.opacity = '0';
                 p.style.transform = 'translateY(10px)';
                 p.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             });
         }
 
-        // Efeito de brilho sutil no header
-        function headerGlowEffect() {
-            const header = document.querySelector('.letter-header');
-            setInterval(() => {
-                header.style.boxShadow = 'inset 0 0 60px rgba(255,255,255,0.1)';
-                setTimeout(() => {
-                    header.style.boxShadow = 'none';
-                }, 800);
-            }, 5000);
+        // Compartilhamento
+        function shareCarta() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Carta de Gratidão para Késsia',
+                    text: 'Uma carta especial de gratidão e admiração',
+                    url: window.location.href
+                })
+                .then(() => showNotification('Carta compartilhada com sucesso!', 'success'))
+                .catch(error => console.log('Erro ao compartilhar:', error));
+            } else {
+                // Fallback para copiar link
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => showNotification('Link copiado para a área de transferência!', 'success'))
+                    .catch(err => showNotification('Erro ao copiar link', 'error'));
+            }
         }
 
-        // Efeito de confetes discretos ao carregar
-        function createSubtleConfetti() {
-            const confettiContainer = document.createElement('div');
-            confettiContainer.style.position = 'fixed';
-            confettiContainer.style.top = '0';
-            confettiContainer.style.left = '0';
-            confettiContainer.style.width = '100%';
-            confettiContainer.style.height = '100%';
-            confettiContainer.style.pointerEvents = 'none';
-            confettiContainer.style.zIndex = '9999';
-            document.body.appendChild(confettiContainer);
+        // Mostrar notificação
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
 
+        // Efeito de confetes
+        function createSubtleConfetti() {
             const colors = ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c', '#f1c40f'];
             const symbols = ['❖', '◆', '◇', '◈', '✦'];
 
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 30; i++) {
                 const confetti = document.createElement('div');
-                confetti.style.position = 'absolute';
+                confetti.style.position = 'fixed';
                 confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.opacity = '0.1';
                 confetti.style.fontSize = Math.random() * 10 + 10 + 'px';
                 confetti.style.top = '-20px';
                 confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.zIndex = '9999';
                 confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                confettiContainer.appendChild(confetti);
+                document.body.appendChild(confetti);
 
-                // Animação
                 const animation = confetti.animate([
                     { transform: 'translateY(0) rotate(0deg)', opacity: 0.1 },
                     { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
@@ -426,41 +152,43 @@
 
                 animation.onfinish = () => confetti.remove();
             }
-
-            // Remover container após animação
-            setTimeout(() => confettiContainer.remove(), 3000);
         }
 
-        // Inicializar efeitos quando a página carregar
+        // Inicializar efeitos
         document.addEventListener('DOMContentLoaded', function() {
             typeWriterEffect();
             highlightParagraphs();
-            headerGlowEffect();
             
-            // Confetti sutil após um breve delay
-            setTimeout(createSubtleConfetti, 1000);
-            
-            // Scroll suave para o conteúdo
+            // Efeitos iniciais
             setTimeout(() => {
-                window.scrollTo({
-                    top: document.querySelector('.letter-content').offsetTop - 50,
-                    behavior: 'smooth'
-                });
-            }, 1500);
+                createSubtleConfetti();
+                showNotification('Carta carregada com sucesso!', 'success');
+            }, 1000);
+            
+            // Verificar se é mobile
+            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                document.body.classList.add('mobile');
+            }
+            
+            // Atualizar data se necessário
+            const dateElement = document.querySelector('.letter-date');
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            dateElement.textContent = today.toLocaleDateString('pt-BR', options);
         });
 
-        // Botão de impressão com feedback
-        const printBtn = document.querySelector('.print-button');
-        printBtn.addEventListener('click', function() {
-            // Feedback visual
-            this.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 200);
-            
-            // Efeito de confetti adicional
-            createSubtleConfetti();
-        });
+        // API para obter dados da carta
+        async function fetchCartaData() {
+            try {
+                const response = await fetch('/api/carta');
+                const data = await response.json();
+                console.log('Dados da carta:', data);
+                return data;
+            } catch (error) {
+                console.error('Erro ao buscar dados da carta:', error);
+                return null;
+            }
+        }
     </script>
 </body>
 </html>
